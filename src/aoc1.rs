@@ -1,14 +1,5 @@
 pub fn aoc1_1(input: &str) -> i32 {
-    let turns: Vec<i32> = input
-        .lines()
-        .map(|f| {
-            if f.chars().nth(0) == Some('R') {
-                f[1..].parse::<i32>().unwrap()
-            } else {
-                f[1..].parse::<i32>().unwrap() * -1
-            }
-        })
-        .collect::<Vec<_>>();
+    let turns: Vec<i32> = input.lines().map(|f| if f.chars().nth(0) == Some('R') {f[1..].parse::<i32>().unwrap()} else {f[1..].parse::<i32>().unwrap() * -1}).collect::<Vec<_>>();
     let mut position = 50;
     let mut result = 0;
 
@@ -26,35 +17,50 @@ pub fn aoc1_1(input: &str) -> i32 {
 }
 
 pub fn aoc1_2(input: &str) -> i32 {
-    let turns: Vec<i32> = input
-        .lines()
-        .map(|f| {
-            if f.chars().nth(0) == Some('R') {
-                f[1..].parse::<i32>().unwrap()
-            } else {
-                f[1..].parse::<i32>().unwrap() * -1
-            }
-        })
-        .collect::<Vec<_>>();
+    let turns: Vec<i32> = input.lines().map(|f| if f.chars().nth(0) == Some('R') {f[1..].parse::<i32>().unwrap()} else {f[1..].parse::<i32>().unwrap() * -1}).collect::<Vec<_>>();
     let mut position = 50;
     let mut result = 0;
 
+
     for turn in turns {
-        position += turn;
+        result += (turn / 100).abs();
+        let turn = turn % 100;
 
-        let zero_count = position / 100;
-        position %= 100;
-
-        // if position < 0 {
-        //     position += 100;x
-        // }
-
-        if position == 0 {
-            result += 1;
+        if turn == 0 {
+            continue;
         }
 
-        result += zero_count;
+        let a = position/100;
+        let b = (position + turn)/100;
+
+        if a == b {
+            let c = position%100;
+            let d = (position + turn)%100;
+
+            if d == 0 { // 99->0, -99->0, just become zero
+                result += 1;
+            }
+            else if c > 0 && d < 0 { // 99 -> -99
+                result += 1;
+            }
+            else if c < 0 && d > 0 { // -99 -> 99
+                result += 1;
+            }
+        } else if a != b {
+            let c = position%100;
+            // let d = (position + turn)%100;
+
+            // from zero we cannot reach zero again 
+            if c == 0 { // this is already counted
+                continue;
+            } else {
+                result += 1;
+            }
+        }
+
+        position = (position + turn)%100;
     }
+
 
     result
 }
@@ -67,7 +73,7 @@ mod aoc1_2 {
 
     #[test]
     fn aoc2() {
-        let input = fs::read_to_string("inputs\\1.txt").unwrap();
+        let input = fs::read_to_string("inputs/1.txt").unwrap();
 
         assert_eq!(aoc1_2(&input), 0);
     }
@@ -138,7 +144,14 @@ mod aoc1_2_user_tests {
         input.push_str("R10000\n");
         input.push_str("L10000\n");
 
-        assert_eq!(aoc1_2(&input), 7);
+        assert_eq!(aoc1_2(&input), 223);
+    }
+
+    #[test]
+    fn easy_5() {
+        let input = "L51\n".to_string();
+
+        assert_eq!(aoc1_2(&input), 1);
     }
 }
 
@@ -150,7 +163,7 @@ mod aoc1_1_result {
 
     #[test]
     fn aoc1() {
-        let input = fs::read_to_string("inputs\\1.txt").unwrap();
+        let input = fs::read_to_string("inputs/1.txt").unwrap();
 
         assert_eq!(aoc1_1(&input), 980);
     }
@@ -173,7 +186,7 @@ mod aoc1_1_examples {
         input.push_str("R14\n");
         input.push_str("L82\n");
 
-        assert_eq!(aoc1_1(&input), 6);
+        assert_eq!(aoc1_1(&input), 3);
     }
 }
 
