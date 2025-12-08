@@ -41,7 +41,6 @@ pub fn aoc1_2(input: &str) -> i32 {
     result
 }
 
-
 #[cfg(test)]
 mod aoc1_2 {
     use std::fs;
