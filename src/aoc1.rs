@@ -1,5 +1,14 @@
 pub fn aoc1_1(input: &str) -> i32 {
-    let turns: Vec<i32> = input.lines().map(|f| if f.chars().nth(0) == Some('R') {f[1..].parse::<i32>().unwrap()} else {f[1..].parse::<i32>().unwrap() * -1}).collect::<Vec<_>>();
+    let turns: Vec<i32> = input
+        .lines()
+        .map(|f| {
+            if f.chars().nth(0) == Some('R') {
+                f[1..].parse::<i32>().unwrap()
+            } else {
+                f[1..].parse::<i32>().unwrap() * -1
+            }
+        })
+        .collect::<Vec<_>>();
     let mut position = 50;
     let mut result = 0;
 
@@ -17,7 +26,16 @@ pub fn aoc1_1(input: &str) -> i32 {
 }
 
 pub fn aoc1_2(input: &str) -> i32 {
-    let turns: Vec<i32> = input.lines().map(|f| if f.chars().nth(0) == Some('R') {f[1..].parse::<i32>().unwrap()} else {f[1..].parse::<i32>().unwrap() * -1}).collect::<Vec<_>>();
+    let turns: Vec<i32> = input
+        .lines()
+        .map(|f| {
+            if f.chars().nth(0) == Some('R') {
+                f[1..].parse::<i32>().unwrap()
+            } else {
+                f[1..].parse::<i32>().unwrap() * -1
+            }
+        })
+        .collect::<Vec<_>>();
     let mut position = 50;
     let mut result = 0;
 
